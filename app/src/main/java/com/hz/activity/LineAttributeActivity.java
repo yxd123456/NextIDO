@@ -252,6 +252,10 @@ public class LineAttributeActivity extends BaseAttributeActivity {
         setTextFieldTagAndText(mapObj);
         //根据textfield的tag到数据库查询数据库文本信息
         setTextFieldTextByTextFieldTag(mapObj);
+
+        final View gallery = findViewById(R.id.gallery);
+
+
     }
     @Override
     public void onClick(View v) {
@@ -424,11 +428,6 @@ public class LineAttributeActivity extends BaseAttributeActivity {
      */
     private void addNewTableRowToTableLayout(TableRow tableRow) {
         mEditElectricCableTableLayout.addView(tableRow, mEditElectricCableTableLayout.getChildCount() - 1);
-    }
-
-
-    public void test(View v){
-        onSetUpResult();
     }
 
     /**
