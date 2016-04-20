@@ -43,6 +43,8 @@ public class LineAttributeActivity extends BaseAttributeActivity {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     public static final String TAG = LineAttributeActivity.class.getSimpleName();
     public static final String LINE_NAME = "line_name";
+    public static final String LINE_SPECIFITION_NUMBER = "l_S_n";
+    public static final String LINE_NOTE = "line_note";
     private MapLineEntity mapObj = null;
     private ValidaterEditText mEditWireType;//点位跨越线类型
     private ValidaterEditText mEditSpecificationNumber;//规格线数
@@ -112,13 +114,16 @@ public class LineAttributeActivity extends BaseAttributeActivity {
         mapObj.setPointGalleryLists(mGalleryEntityList);*/
         mapObj.setLineWireTypeId(getString(mEditWireType.getTag()));
         mapObj.setLineName(mEditAttributeName.getText().toString());
-        if(MainActivity.flag_change){
-            SharedPreferencesUtils.setParam(this, LINE_NAME, mEditAttributeName.getText().toString());
-        }
         mapObj.setLineNote(mEditAttributeNote.getText().toString());
         mapObj.setLineRemoved(Constans.RemoveIdentified.REMOVE_IDENTIFIED_NORMAL);
         mapObj.setLineLength(Double.parseDouble(String.valueOf(mEditLineLength.getText().toString())));
         mapObj.setLineSpecificationNumber(Integer.parseInt(mEditSpecificationNumber.getText().toString()));
+
+        if(MainActivity.flag_change){
+            SharedPreferencesUtils.setParam(this, LINE_NAME, mEditAttributeName.getText().toString());
+            SharedPreferencesUtils.setParam(this, LINE_SPECIFITION_NUMBER, mEditSpecificationNumber.getText().toString());
+            SharedPreferencesUtils.setParam(this, LINE_NOTE, mEditAttributeNote.getText().toString());
+        }
 
             List<MapLineItemEntity> lineItemEntityList = new ArrayList<>();
 

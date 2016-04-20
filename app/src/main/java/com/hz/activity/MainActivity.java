@@ -212,6 +212,8 @@ public class MainActivity extends BaseMapActivity implements View.OnClickListene
                         list_item_entity.clear();
                     }
                     SINGGLE_LINE_CLICK = false;
+                    list_other_select.clear();
+                    firstEntity = null;
                 }
 
             }
@@ -592,11 +594,15 @@ public class MainActivity extends BaseMapActivity implements View.OnClickListene
             // TODO: 2016/4/13
             String tag = UUID.randomUUID().toString();
             DataBaseManagerHelper.getInstance().removeLineByLineId(entity.getLineId());
-            entity.setLineId(tag);
-            DataBaseManagerHelper.getInstance().addOrUpdateOneLineToDb(entity);
-            if(list_mle.size() == 0){
 
+            if(list_mle.size() == 0){
+                entity.setLineId(tag+"*****");
+            } else {
+                entity.setLineId(tag+"$$$$$");
             }
+
+            DataBaseManagerHelper.getInstance().addOrUpdateOneLineToDb(entity);
+
             list_mle.add(entity);
             addId(entity.getLineId());
             polyline.setColor(Color.RED);
@@ -953,7 +959,11 @@ public class MainActivity extends BaseMapActivity implements View.OnClickListene
                         //DataBaseManagerHelper.getInstance().updateInsertConnectLineItems(list_item_entity);
                         String lineName = (String) SharedPreferencesUtils.getParam(MainActivity.this, LineAttributeActivity.LINE_NAME, list_new_mle.get(0).getLineName());
                         entity.setLineName(lineName);
-                      /*  if(flag_once) {
+                        int spec = Integer.parseInt((String) SharedPreferencesUtils.getParam(MainActivity.this, LineAttributeActivity.LINE_SPECIFITION_NUMBER, String.valueOf(list_new_mle.get(0).getLineSpecificationNumber())));
+                        entity.setLineSpecificationNumber(spec);
+                        String note = (String) SharedPreferencesUtils.getParam(MainActivity.this, LineAttributeActivity.LINE_NOTE, list_new_mle.get(0).getLineNote());
+                        entity.setLineNote(note);
+                        /*  if(flag_once) {
                             entity.setFlag(MapLineEntity.FIRST_SECLECT);
                             flag_once = false;
                         } else {
@@ -970,24 +980,26 @@ public class MainActivity extends BaseMapActivity implements View.OnClickListene
 
             }
             DataBaseManagerHelper.getInstance().updateConnectLines(tempLineEntityList);
+
         }
 
         /*for(MapLineEntity lineEntity : tempLineEntityList){
-            log("lala", lineEntity.getFlag()+"  ########################");
-            if(lineEntity.getFlag() == MapLineEntity.OTHER_SELECT){
+            log("lala", lineEntity.getLineId());
+            if(lineEntity.getLineId().contains("$$$$$")){
                 list_other_select.add(lineEntity);
                 log("lala", "1");
             }
-            if(lineEntity.getFlag() == MapLineEntity.FIRST_SECLECT){
+            if(lineEntity.getLineId().contains("*****")){
                 firstEntity = lineEntity;
                 log("lala", "2");
             }
-        }*/
+        }
 
-        /*if(list_other_select.size() != 0){
+        if(list_other_select.size() != 0){
             log("lala", "3");
-            for (MapLineEntity lineEntity : tempLineEntityList){
+            for (MapLineEntity lineEntity : list_other_select){
                 lineEntity.setMapLineItemEntityList(firstEntity.getMapLineItemEntityList());
+                DataBaseManagerHelper.getInstance().addOrUpdateOneLineToDb(lineEntity);
             }
         }*/
 
