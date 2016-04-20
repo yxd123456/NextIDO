@@ -100,6 +100,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CAMERA_REQUEST_RESULT:
+                log("camera", "onActivityResult addGalleryItem");
+
                 addGalleryItem(mCurrentFilePath, mCurrentFileName);
                 break;
         }
@@ -108,11 +110,15 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
     //接口方法+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     @Override
     public void pickerDialogHasNotFocus(PickerListViewDialog pickerScrollViewDialog) {
+        log("camera", "pickerDialogHasNotFocus");
+
         ValidaterEditText editText = (ValidaterEditText) pickerScrollViewDialog.getPickerDialogBindEditText();
         editText.validateByConfig();
     }
     @Override
     public void onOkClick(List<GalleryListItemEntity> checkStringList) {
+        log("camera", "onOkClick");
+
         if (checkStringList != null && !checkStringList.isEmpty()) {
             for (GalleryListItemEntity itemEntity : checkStringList) {
                 String name = new File(itemEntity.imagePath).getName();
@@ -130,14 +136,20 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
     public void onButtonClick(View view, int viewType) {
         switch (viewType) {
             case ChooseImagePopupWindow.VIEW_TYPE_CAMERAS:
+                log("camera", "VIEW_TYPE_CAMERAS");
+
                 lunchCameraForResult();
                 popupWindow.dismiss();
                 break;
             case ChooseImagePopupWindow.VIEW_TYPE_IMAGES:
+                log("camera", "VIEW_TYPE_IMAGES");
+
                 lunchGalleryToChooseImages();
                 popupWindow.dismiss();
                 break;
             case ChooseImagePopupWindow.VIEW_TYPE_CANCEL:
+                log("camera", "VIEW_TYPE_CANCEL");
+
                 popupWindow.dismiss();
                 break;
         }
@@ -146,6 +158,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.id_button_editok:
+                log("camera", "id_button_editok");
+
                 //当点击确定按钮返回的时候需要验证输入的正确性并设置数据到数据库
                 this.onValidateInputSetUpResultAndFinish(true);
                 break;
@@ -155,6 +169,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
     //选项菜单+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        log("camera", "onCreateOptionsMenu");
+
         getMenuInflater().inflate(R.menu.menu_point_attribute, menu);
         return true;
     }
@@ -162,9 +178,13 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_remove:
+                log("camera", "menu_item_remove");
+
                 onRightMenuClick();
                 return true;
             case R.id.menu_item_ok:
+                log("camera", "menu_item_ok");
+
                 this.onValidateInputSetUpResultAndFinish(true);
                 return true;
         }
@@ -176,6 +196,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * 解析传入bundle参数
      * */
     public void onAnalysisBundleData() {
+        log("camera", "onAnalysisBundleData");
+
         Bundle bundleParam = this.getIntent().getExtras();//获取项目列表传入参数
         projectEntity = (ProjectEntity) bundleParam.getSerializable(ProjectListFragment.PROJECT_OBJ_KEY);
     }
@@ -183,6 +205,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * 显示点位名称和点位备注
      * */
     public void setNameAndNoteByBundleData(String name, String note) {
+        log("camera", "setNameAndNoteByBundleData");
+
         mEditAttributeName.setText(name);
         mEditAttributeNote.setText(note);
     }
@@ -191,6 +215,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * *
      */
     public void displayOkOrUpdateByAttributeByEditType(int attributeEditType) {
+        log("camera", "displayOkOrUpdateByAttributeByEditType");
+
         //确定按钮
         if (attributeEditType == Constans.AttributeEditType.EDIT_TYPE_ADD) {
             mEditAttributeOk.setText(getResources().getString(R.string.editAttributeAdd));
@@ -202,6 +228,7 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * 选择一种方式来获取图片
      **/
     public void chooseWayToGetImage() {
+        log("camera", "chooseWayToGetImage");
         popupWindow = new ChooseImagePopupWindow(this);
         popupWindow.setOnButtonClickListener(this);
         popupWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -211,6 +238,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * *
      */
     public void lunchCameraForResult() {
+        log("camera", "lunchCameraForResult");
+
         String imageFolderName = DateUtil.genCurrDateStrWithFormat("yyyyMMdd");//根据日期创建的文件夹名称
         mCurrentFileName = DateUtil.genCurrDateStr();//文件名称
         mCurrentFilePath = StroageHelper.getProjectImageFileByDate(this, imageFolderName, mCurrentFileName + ".jpeg").getAbsolutePath();
@@ -224,6 +253,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * 启动选择系统图片页面
      */
     public void lunchGalleryToChooseImages() {
+        log("camera", "lunchGalleryToChooseImages");
+
         galleryPopupWindow = new GalleryPopupWindow(this);
         galleryPopupWindow.setOnOkClickListener(this);
         galleryPopupWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -232,6 +263,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * 长按点位图片从数据库删除图片
      */
     public void removeImageFromDb(String imageId) {
+        log("camera", "removeImageFromDb");
+
         PointGalleryEntityDao pointGalleryEntityDao = this.getDaoSession().getPointGalleryEntityDao();
         //2.移除点位图片信息
         PointGalleryEntity galleryEntity = pointGalleryEntityDao.queryBuilder().where(PointGalleryEntityDao.Properties.ImgId.eq(imageId)).unique();
@@ -243,6 +276,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
     }
 
     public void addGalleryItem(String filePath, String fileName) {
+        log("camera", "addGalleryItem");
+
         if (filePath != null) {
             File file = new File(filePath);
             if (file.isFile() && file.length() > 1000) {
@@ -261,6 +296,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * 当右键点击的时候不需要验证输入的正确性
      * */
     public void onRightMenuClick() {
+        log("camera", "onRightMenuClick");
+
         onBeforeRightIconClick();
         this.onValidateInputSetUpResultAndFinish(false);
     }
@@ -269,6 +306,8 @@ public abstract class BaseAttributeActivity extends BaseActivity implements View
      * needCheckInput 设置是否需要检查输入正确性
      */
     private void onValidateInputSetUpResultAndFinish(boolean needCheckInput) {
+        log("camera", "onValidateInputSetUpResultAndFinish");
+
         if (needCheckInput) {//直接返回 ，确定，修改 --》 需要验证输入
             if (onValidateInputSetUpResult()) {
                 onSetUpResult();

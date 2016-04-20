@@ -1247,7 +1247,6 @@ public class MainActivity extends BaseMapActivity implements View.OnClickListene
         if (lineEntity == null) {
             return;
         }
-        toast("1");
         int editType = lineEntity.getLineEditType();
         Log.d("KO", "开放的接口 "+editType);
         switch (editType) {

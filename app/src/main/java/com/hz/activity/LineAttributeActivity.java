@@ -254,7 +254,7 @@ public class LineAttributeActivity extends BaseAttributeActivity {
         setTextFieldTextByTextFieldTag(mapObj);
 
         final View gallery = findViewById(R.id.gallery);
-
+        
 
     }
     @Override

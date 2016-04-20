@@ -92,7 +92,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void log(String tag,String str){
-        Log.d(tag, str);
+        Log.d(tag, getClass().getSimpleName()+" "+str);
     }
     public void toast(String str){
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();

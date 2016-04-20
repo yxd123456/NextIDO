@@ -28,7 +28,6 @@ public class ChooseImagePopupWindow extends PopupWindow implements View.OnTouchL
 
     public ChooseImagePopupWindow(Context context) {
         super(context);
-        Log.d("Test",getClass().getSimpleName()+"被调用了");
         LayoutInflater inflater = LayoutInflater.from(context);
         rootView = inflater.inflate(R.layout.popupwindow_preparetochooseimage, null);
         rootView.setOnTouchListener(this);

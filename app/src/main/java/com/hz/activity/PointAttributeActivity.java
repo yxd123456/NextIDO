@@ -104,6 +104,8 @@ public class PointAttributeActivity extends BaseAttributeActivity {
             mGalleryEntityList.addAll(mapObj.getPointGalleryLists());
         }
 
+
+
     }
     @Override
     public void pickerDialogHasFocus(PickerListViewDialog pickerScrollViewDialog) {

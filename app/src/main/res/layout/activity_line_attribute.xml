@@ -187,6 +187,7 @@
 
             <!--图片滑动组件-->
             <LinearLayout
+                android:id="@+id/gallery"
                 style="@style/attributeedit_item_style"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -197,7 +198,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="0dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/id_recyclerview_gallery"
